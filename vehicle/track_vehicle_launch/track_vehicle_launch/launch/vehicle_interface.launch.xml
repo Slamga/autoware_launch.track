@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+    <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+    <!-- please add your created vehicle interface launch file -->
+    <include file="$(find-pkg-share track_vehicle_interface)/launch/track_vehicle_interface.launch.py">
+    </include>
 </launch>
