@@ -14,7 +14,9 @@
   <depend>geometry_msgs</depend>    
   <depend>visualization_msgs</depend>  
   <depend>serial</depend>
-  
+  <depend>autoware_auto_control_msgs</depend>
+  <depend>autoware_auto_vehicle_msgs</depend>
+  <depend>tier4_vehicle_msgs</depend>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <build_depend>rosidl_default_generators</build_depend>
   <exec_depend>rosidl_default_runtime</exec_depend>
