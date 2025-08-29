@@ -27,17 +27,17 @@ find_package(visualization_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_library(MODBUS_LIB modbus PATHS /usr/local/lib)
 find_path(MODBUA_INCLUDE_DIR modbus.h PATHS /usr/local/include)
-find_package(autoware_auto_control_msgs REQUIRED)
-find_package(autoware_auto_vehicle_msgs REQUIRED)
 find_package(tier4_vehicle_msgs REQUIRED)
+find_package(autoware_control_msgs REQUIRED)
+find_package(autoware_vehicle_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 # 自定义 msg
-rosidl_generate_interfaces(${PROJECT_NAME}
-  DEPENDENCIES std_msgs sensor_msgs geometry_msgs nav_msgs visualization_msgs
-)
+# rosidl_generate_interfaces(${PROJECT_NAME}
+#   DEPENDENCIES std_msgs sensor_msgs geometry_msgs nav_msgs visualization_msgs
+# )
 
 # 节点
 add_executable(track_vehicle_interface_node src/node.cpp src/track_vehicle_interface.cpp)
@@ -48,24 +48,24 @@ ament_target_dependencies(track_vehicle_interface_node
   nav_msgs
   geometry_msgs
   visualization_msgs
-  autoware_auto_control_msgs
-  autoware_auto_vehicle_msgs
   tier4_vehicle_msgs
+  autoware_control_msgs
+  autoware_vehicle_msgs
 )
 target_include_directories(track_vehicle_interface_node PRIVATE ${MODBUS_INCLUDE_DIR}
 include)
 # 确保 msg 先生成，再编译 node
-rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp")
-target_link_libraries(track_vehicle_interface_node ${cpp_typesupport_target} ${MODBUS_LIB})
-add_dependencies(track_vehicle_interface_node ${PROJECT_NAME}__cpp)
+# rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} "rosidl_typesupport_cpp") ${cpp_typesupport_target}
+target_link_libraries(track_vehicle_interface_node  ${MODBUS_LIB})
+# add_dependencies(track_vehicle_interface_node ${PROJECT_NAME}__cpp)
 
 install(DIRECTORY launch
   	DESTINATION share/${PROJECT_NAME}
   	)
 
-# install(DIRECTORY config/
-#   	DESTINATION share/${PROJECT_NAME}/config
-#   	)
+install(DIRECTORY config/
+  	DESTINATION share/${PROJECT_NAME}/config
+  	)
 
 install(TARGETS
   track_vehicle_interface_node

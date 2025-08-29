@@ -84,7 +84,8 @@
       <arg name="is_simulation" value="true"/>
     </include>
   </group>
-
+  <!-- <include file="$(find-pkg-share track_vehicle_interface)/launch/track_vehicle_interface.launch.py">
+    </include> -->
   <!-- Simulator -->
   <group>
     <let name="launch_dummy_perception" value="false" if="$(var scenario_simulation)"/>

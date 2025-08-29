@@ -6,7 +6,7 @@
     wheel_tread: 0.67 # between left wheel center and right wheel center
     front_overhang: 0.16 # between front wheel center and vehicle front
     rear_overhang: 0.18 # between rear wheel center and vehicle rear
-    left_overhang: 0.0 # between left wheel center and vehicle left
-    right_overhang: 0.0 # between right wheel center and vehicle right
+    left_overhang: 0.09 # between left wheel center and vehicle left
+    right_overhang: 0.09 # between right wheel center and vehicle right
     vehicle_height: 0.62
-    max_steer_angle: 0.0 # [rad]
+    max_steer_angle: 0.7 # [rad]

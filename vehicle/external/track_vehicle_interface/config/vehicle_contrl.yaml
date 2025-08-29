@@ -1,0 +1,4 @@
+/**:
+  ros__parameters:
+    steering_zoom: 10.0
+    velocity_zoom: 251.0
