@@ -7,9 +7,9 @@
   />
   <arg name="pointcloud_container_name" description="name of pointcloud container"/>
   <arg name="launch_sensing_driver" default="true"/>
-  <arg name="sensor_model" default="sample_sensor_kit"/>
+  <arg name="sensor_model" default="track_sensor_kit"/>
   <arg name="use_sim_time" default="false"/>
-  <arg name="vehicle_model" default="sample_vehicle"/>
+  <arg name="vehicle_model" default="track_vehicle"/>
 
   <!-- Global parameters -->
   <group scoped="false">

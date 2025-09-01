@@ -1,0 +1,11 @@
+wheel_imu/Tid				tid
+wheel_imu/ThreeAxis			acc
+wheel_imu/ThreeAxis			gyro
+wheel_imu/EulerAngle		euler
+wheel_imu/Quat				quat
+wheel_imu/SensorTemp 		temp
+wheel_imu/GnssPos			pos
+wheel_imu/NavStatus			status
+wheel_imu/Vel				vel	
+wheel_imu/Utc				utc
+wheel_imu/Pressure			pressure

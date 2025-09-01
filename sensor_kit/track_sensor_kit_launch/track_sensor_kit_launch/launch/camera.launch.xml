@@ -1,7 +1,9 @@
 <launch>
   <arg name="launch_driver" default="true"/>
   <arg name="camera_type" default="left"/>
-
+  <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py" if="$(var launch_driver)">
+    <!-- <arg name="ip_address" value="$(var sensor_ip)"/> -->
+    </include>
   <group>
     <push-ros-namespace namespace="camera"/>
     <group>

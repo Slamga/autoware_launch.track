@@ -13,8 +13,13 @@
       </node>
     </group> -->
 
-    <arg name="imu_raw_name" default="tamagawa/imu_raw"/>
-    <arg name="imu_corrector_param_file" default="$(find-pkg-share sample_sensor_kit_description)/config/imu_corrector.param.yaml"/>
+     <!-- wheel imu H30 Driver -->
+    <include file="$(find-pkg-share wheel_imu)/launch/wheel_imu_node.launch.py" if="$(var launch_driver)">
+    <!-- <arg name="ip_address" value="$(var sensor_ip)"/> -->
+    </include>
+
+    <arg name="imu_raw_name" default="wheel/imu_raw"/>
+    <arg name="imu_corrector_param_file" default="$(find-pkg-share track_sensor_kit_description)/config/imu_corrector.param.yaml"/>
     <include file="$(find-pkg-share autoware_imu_corrector)/launch/imu_corrector.launch.xml">
       <arg name="input_topic" value="$(var imu_raw_name)"/>
       <arg name="output_topic" value="imu_data"/>
