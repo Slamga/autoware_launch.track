@@ -1,7 +1,7 @@
 <launch>
   <!-- Params -->
   <arg name="launch_driver" default="true"/>
-  <arg name="model" default="livox_avia"/>
+  <arg name="model" default="livox"/>
   <arg name="max_range" default="130.0"/>
   <arg name="min_range" default="0.4"/>
   <arg name="sensor_frame" default="livox"/>
@@ -12,7 +12,7 @@
   <arg name="scan_phase" default="0.0"/>
   <arg name="cloud_min_angle" default="0"/>
   <arg name="cloud_max_angle" default="360"/>
-  <arg name="vehicle_mirror_param_file"/>
+  <arg name="vehicle_mirror_param_file" default="$(find-pkg-share track_vehicle_description)/config/mirror.param.yaml" />
   <arg name="container_name" default="livox_node_container"/>
   <arg name="udp_only" default="false"/>
 

@@ -35,6 +35,8 @@ def get_lidar_make(sensor_name):
         return "Velodyne", ".yaml"
     elif sensor_name.lower() in ["helios", "bpearl"]:
         return "Robosense", None
+    elif sensor_name.lower() in ["livox", "bpearl"]:
+        return "livox", None
     return "unrecognized_sensor_model"
 
 
@@ -109,46 +111,46 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
-    nodes.append(
-        ComposableNode(
-            package="nebula_ros",
-            plugin=sensor_make + "RosWrapper",
-            name=sensor_make.lower() + "_ros_wrapper_node",
-            parameters=[
-                {
-                    "calibration_file": sensor_calib_fp,
-                    "sensor_model": sensor_model,
-                    "launch_hw": LaunchConfiguration("launch_driver"),
-                    **create_parameter_dict(
-                        "host_ip",
-                        "sensor_ip",
-                        "data_port",
-                        "gnss_port",
-                        "return_mode",
-                        "min_range",
-                        "max_range",
-                        "frame_id",
-                        "scan_phase",
-                        "cloud_min_angle",
-                        "cloud_max_angle",
-                        "dual_return_distance_threshold",
-                        "rotation_speed",
-                        "packet_mtu_size",
-                        "setup_sensor",
-                        "udp_only",
-                    ),
-                },
-            ],
-            remappings=[
-                # cSpell:ignore knzo25
-                # TODO(knzo25): fix the remapping once nebula gets updated
-                ("velodyne_points", "pointcloud_raw_ex"),
-                # ("robosense_points", "pointcloud_raw_ex"), #for robosense
-                # ("pandar_points", "pointcloud_raw_ex"), # for hesai
-            ],
-            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-        )
-    )
+    # nodes.append(
+    #     ComposableNode(
+    #         package="nebula_ros",
+    #         plugin=sensor_make + "RosWrapper",
+    #         name=sensor_make.lower() + "_ros_wrapper_node",
+    #         parameters=[
+    #             {
+    #                 "calibration_file": sensor_calib_fp,
+    #                 "sensor_model": sensor_model,
+    #                 "launch_hw": LaunchConfiguration("launch_driver"),
+    #                 **create_parameter_dict(
+    #                     "host_ip",
+    #                     "sensor_ip",
+    #                     "data_port",
+    #                     "gnss_port",
+    #                     "return_mode",
+    #                     "min_range",
+    #                     "max_range",
+    #                     "frame_id",
+    #                     "scan_phase",
+    #                     "cloud_min_angle",
+    #                     "cloud_max_angle",
+    #                     "dual_return_distance_threshold",
+    #                     "rotation_speed",
+    #                     "packet_mtu_size",
+    #                     "setup_sensor",
+    #                     "udp_only",
+    #                 ),
+    #             },
+    #         ],
+    #         remappings=[
+    #             # cSpell:ignore knzo25
+    #             # TODO(knzo25): fix the remapping once nebula gets updated
+    #             ("velodyne_points", "pointcloud_raw_ex"),
+    #             # ("robosense_points", "pointcloud_raw_ex"), #for robosense
+    #             # ("pandar_points", "pointcloud_raw_ex"), # for hesai
+    #         ],
+    #         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+    #     )
+    # )
 
     cropbox_parameters = create_parameter_dict("input_frame", "output_frame")
     cropbox_parameters["negative"] = True

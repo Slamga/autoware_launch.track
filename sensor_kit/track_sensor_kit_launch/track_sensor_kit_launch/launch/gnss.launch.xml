@@ -1,14 +1,15 @@
 <launch>
   <arg name="launch_driver" default="true"/>
   <arg name="gnss_receiver" default="wheel" description="ublox(default) or septentrio"/>
-
+  <arg name="navsatfix_topic_name" default="ublox/nav_sat_fix" description="ublox(default) or septentrio"/>
+  <arg name="orientation_topic_name" default="/autoware_orientation" description="ublox(default) or septentrio"/>
   <group>
     <push-ros-namespace namespace="gnss"/>
 
     <!-- Switch topic name -->
-    <let name="navsatfix_topic_name" value="ublox/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='ublox'&quot;)"/>
+    <!-- <let name="navsatfix_topic_name" value="ublox/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='ublox'&quot;)"/>
     <let name="navsatfix_topic_name" value="septentrio/nav_sat_fix" if="$(eval &quot;'$(var gnss_receiver)'=='septentrio'&quot;)"/>
-    <let name="orientation_topic_name" value="/autoware_orientation"/>
+    <let name="orientation_topic_name" value="/autoware_orientation"/> -->
 
     <!-- wheel gnss G60 Driver -->
     <include file="$(find-pkg-share nmea_navsat_driver)/launch/nmea_serial_driver.launch.py" if="$(var launch_driver)">

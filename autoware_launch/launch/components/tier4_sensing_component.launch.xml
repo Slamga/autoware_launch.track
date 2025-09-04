@@ -5,7 +5,7 @@
     default="false"
     description="if true, launch pointcloud container. Please note that it is not intended to launch pointcloud_container_name with the same name in other launch files."
   />
-  <arg name="pointcloud_container_name" description="name of pointcloud container"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container" description="name of pointcloud container"/>
   <arg name="launch_sensing_driver" default="true"/>
   <arg name="sensor_model" default="track_sensor_kit"/>
   <arg name="use_sim_time" default="false"/>
