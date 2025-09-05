@@ -1,4 +1,4 @@
-yesense_pub:
+wheel_imu_pub:
     ros__parameters:
         serial_port: "/dev/IMU"
         baud_rate: 460800

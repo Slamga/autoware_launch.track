@@ -8,7 +8,7 @@ def generate_launch_description():
         get_package_share_directory('wheel_imu'),
         'config',
         'wheel_imu_config.yaml',
-    ),
+    )
 
     return LaunchDescription([
          Node(

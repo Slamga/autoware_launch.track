@@ -35,9 +35,4 @@
     <arg name="container_name" value="$(var container_name)"/>
     <arg name="udp_only" value="$(var udp_only)"/>
   </include>
-
-  <!-- Livox Monitor -->
-  <include file="$(find-pkg-share livox_ros2_driver)/launch/livox_lidar_msg_launch.py" if="$(var launch_driver)">
-    <arg name="ip_address" value="$(var sensor_ip)"/>
-  </include>
 </launch>

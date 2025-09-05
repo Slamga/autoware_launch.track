@@ -27,7 +27,34 @@ from launch_ros.descriptions import ComposableNode
 from launch_ros.parameter_descriptions import ParameterFile
 import yaml
 
+xfer_format   = 0    # 0-Pointcloud2(PointXYZRTL), 1-customized pointcloud format
+multi_topic   = 0    # 0-All LiDARs share the same topic, 1-One LiDAR one topic
+data_src      = 0    # 0-lidar,1-hub
+publish_freq  = 10.0 # freqency of publish,1.0,2.0,5.0,10.0,etc
+output_type   = 0
+frame_id      = 'world'
+lvx_file_path = '/home/livox/livox_test.lvx'
+cmdline_bd_code = 'livox0000000001'
 
+# cur_path = os.path.split(os.path.realpath(__file__))[0] + '/'
+cur_config_path = os.path.join(
+    get_package_share_directory("livox_ros2_driver"),
+    "config"
+)
+rviz_config_path = os.path.join(cur_config_path, 'livox_lidar.rviz')
+user_config_path = os.path.join(cur_config_path, 'livox_lidar_config.json')
+
+livox_ros2_params = [
+    {"xfer_format": xfer_format},
+    {"multi_topic": multi_topic},
+    {"data_src": data_src},
+    {"publish_freq": publish_freq},
+    {"output_data_type": output_type},
+    {"frame_id": frame_id},
+    {"lvx_file_path": lvx_file_path},
+    {"user_config_path": user_config_path},
+    {"cmdline_input_bd_code": cmdline_bd_code}
+]
 def get_lidar_make(sensor_name):
     if sensor_name[:6].lower() == "pandar":
         return "Hesai", ".csv"
@@ -111,47 +138,20 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
-    # nodes.append(
-    #     ComposableNode(
-    #         package="nebula_ros",
-    #         plugin=sensor_make + "RosWrapper",
-    #         name=sensor_make.lower() + "_ros_wrapper_node",
-    #         parameters=[
-    #             {
-    #                 "calibration_file": sensor_calib_fp,
-    #                 "sensor_model": sensor_model,
-    #                 "launch_hw": LaunchConfiguration("launch_driver"),
-    #                 **create_parameter_dict(
-    #                     "host_ip",
-    #                     "sensor_ip",
-    #                     "data_port",
-    #                     "gnss_port",
-    #                     "return_mode",
-    #                     "min_range",
-    #                     "max_range",
-    #                     "frame_id",
-    #                     "scan_phase",
-    #                     "cloud_min_angle",
-    #                     "cloud_max_angle",
-    #                     "dual_return_distance_threshold",
-    #                     "rotation_speed",
-    #                     "packet_mtu_size",
-    #                     "setup_sensor",
-    #                     "udp_only",
-    #                 ),
-    #             },
-    #         ],
-    #         remappings=[
-    #             # cSpell:ignore knzo25
-    #             # TODO(knzo25): fix the remapping once nebula gets updated
-    #             ("velodyne_points", "pointcloud_raw_ex"),
-    #             # ("robosense_points", "pointcloud_raw_ex"), #for robosense
-    #             # ("pandar_points", "pointcloud_raw_ex"), # for hesai
-    #         ],
-    #         extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
-    #     )
-    # )
-
+    nodes.append(
+        ComposableNode(
+            package="livox_ros2_driver",
+            plugin="livox_ros::LivoxDriver",  # 插件类名,
+            name="livox_ros_wrapper_node",
+            # output='screen',
+            parameters=livox_ros2_params,
+            remappings=[
+            ("livox/lidar", "pointcloud_raw_ex"),
+            ],
+            extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
+        )
+    )
+  
     cropbox_parameters = create_parameter_dict("input_frame", "output_frame")
     cropbox_parameters["negative"] = True
 
@@ -227,7 +227,7 @@ def launch_setup(context, *args, **kwargs):
             name="ring_outlier_filter",
             remappings=[
                 ("input", "rectified/pointcloud_ex"),
-                ("output", "pointcloud_before_sync"),
+                ("output", "/sensing/lidar/concatenated/pointcloud"),
             ],
             parameters=[ring_outlier_filter_node_param, ring_outlier_output_frame],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
