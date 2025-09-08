@@ -147,6 +147,7 @@ def launch_setup(context, *args, **kwargs):
             parameters=livox_ros2_params,
             remappings=[
             ("livox/lidar", "pointcloud_raw_ex"),
+            ("livox/imu", "imu_raw"),
             ],
             extra_arguments=[{"use_intra_process_comms": LaunchConfiguration("use_intra_process")}],
         )

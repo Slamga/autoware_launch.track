@@ -1,24 +1,31 @@
 <launch>
   <arg name="launch_driver" default="true"/>
   <arg name="camera_type" default="left"/>
-  <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py" if="$(var launch_driver)">
+  
     <!-- <arg name="ip_address" value="$(var sensor_ip)"/> -->
-    </include>
+    <!-- /camera/camera/color/camera_info
+    /camera/camera/color/image_raw -->
+
+    
   <group>
     <push-ros-namespace namespace="camera"/>
     <group>
+      <push-ros-namespace namespace="realsense"/>
+      <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py" if="$(var launch_driver)">
+      </include>
+      <group>
+    <group>
       <push-ros-namespace namespace="traffic_light"/>
-
       <!-- (usb_cam_node is assumed to have launched on logging PC) -->
       <node pkg="topic_tools" exec="relay" name="tl_camera_info_relay" output="log">
-        <param name="input_topic" value="$(var camera_type)/camera_info"/>
+        <param name="input_topic" value="/sensing/camera/realsense/camera/camera/color/camera_info"/>
         <param name="output_topic" value="camera_info"/>
         <param name="type" value="sensor_msgs/msg/CameraInfo"/>
         <param name="reliability" value="best_effort"/>
       </node>
 
       <node pkg="topic_tools" exec="relay" name="tl_compressed_image_relay" output="log">
-        <param name="input_topic" value="$(var camera_type)/image_raw/compressed"/>
+        <param name="input_topic" value="/sensing/camera/realsense/camera/camera/color/image_raw/compressed"/>
         <param name="output_topic" value="image_raw/compressed"/>
         <param name="type" value="sensor_msgs/msg/CompressedImage"/>
         <param name="reliability" value="best_effort"/>
