@@ -12,8 +12,17 @@
     <group>
       <push-ros-namespace namespace="realsense"/>
       <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py" if="$(var launch_driver)">
+      <arg name="color_camera.image_transport" value="raw"/>  
       </include>
-      <group>
+       <!-- republish raw -> compressed -->
+      <node pkg="image_transport" exec="republish" name="realsense_compress_republish" output="screen">
+      <param name="from_transport" value="raw"/>
+      <param name="to_transport" value="compressed"/>
+      <remap from="in" to="/sensing/camera/realsense/camera/camera/color/image_raw"/>
+      <remap from="out" to="/sensing/camera/realsense/camera/camera/color/image_raw/compressed"/>
+  </node>
+    </group>
+    
     <group>
       <push-ros-namespace namespace="traffic_light"/>
       <!-- (usb_cam_node is assumed to have launched on logging PC) -->
