@@ -168,7 +168,7 @@ void Lddc::InitPointcloud2MsgHeaderRing(sensor_msgs::msg::PointCloud2 & cloud)
   cloud.fields[5].offset = 14;
   cloud.fields[5].name = "channel";
   cloud.fields[5].count = 1;
-  cloud.fields[5].datatype = sensor_msgs::msg::PointField::UINT8;
+  cloud.fields[5].datatype = sensor_msgs::msg::PointField::UINT16;
   cloud.point_step = sizeof(LivoxPointXyzirc);
 }
 
@@ -343,11 +343,11 @@ uint32_t Lddc::PublishPointcloud2Ring(LidarDataQueue * queue, uint32_t packet_nu
   if (kOutputToRos == output_type_) {
     publisher->publish(cloud);
   } else {
-#if 0    
-    if (bag_) {
-      bag_->write(p_publisher->getTopic(), rclcpp::Time(timestamp),
-                  cloud);
-    }
+#if 0
+        if (bag_) {
+          bag_->write(p_publisher->getTopic(), rclcpp::Time(timestamp),
+                      cloud);
+        }
 #endif
   }
   if (!lidar->data_is_pubulished) {

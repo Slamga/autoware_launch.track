@@ -333,6 +333,36 @@ static uint8_t * LivoxExtendRawPointToPxyzrtl(
   return (uint8_t *)dst_point;
 }
 
+static uint8_t * LivoxExtendRawPointToPxyzrtlRing(
+  uint8_t * point_buf, LivoxEthPacket * eth_packet, ExtrinsicParameter & extrinsic,
+  uint32_t line_num)
+{
+  LivoxPointXyzirc * dst_point = (LivoxPointXyzirc *)point_buf;
+  uint32_t points_per_packet = GetPointsPerPacket(eth_packet->data_type);
+  LivoxExtendRawPoint * raw_point = reinterpret_cast<LivoxExtendRawPoint *>(eth_packet->data);
+
+  uint8_t line_id = 0;
+  while (points_per_packet) {
+    RawPointConvertRing((LivoxPointXyzirc *)dst_point, (LivoxRawPoint *)raw_point);
+    if (extrinsic.enable && IsTripleIntNoneZero(raw_point->x, raw_point->y, raw_point->z)) {
+      PointXyz src_point = *((PointXyz *)dst_point);
+      PointExtrisincCompensation((PointXyz *)dst_point, src_point, extrinsic);
+    }
+    dst_point->return_type = raw_point->tag;
+    if (line_num > 1) {
+      dst_point->channel = line_id % line_num;
+    } else {
+      dst_point->channel = 0;
+    }
+    ++raw_point;
+    ++dst_point;
+    ++line_id;
+    --points_per_packet;
+  }
+
+  return (uint8_t *)dst_point;
+}
+
 static uint8_t * LivoxExtendSpherPointToPxyzrtl(
   uint8_t * point_buf, LivoxEthPacket * eth_packet, ExtrinsicParameter & extrinsic,
   uint32_t line_num)
@@ -540,7 +570,7 @@ uint8_t * LivoxImuDataProcess(uint8_t * point_buf, LivoxEthPacket * eth_packet)
 const PointConvertHandler to_pxyzi_handler_table[kMaxPointDataType] = {
   LivoxRawPointToPxyzrtl,
   LivoxSpherPointToPxyzrtl,
-  LivoxExtendRawPointToPxyzrtl,
+  LivoxExtendRawPointToPxyzrtlRing,
   LivoxExtendSpherPointToPxyzrtl,
   LivoxDualExtendRawPointToPxyzrtl,
   LivoxDualExtendSpherPointToPxyzrtl,

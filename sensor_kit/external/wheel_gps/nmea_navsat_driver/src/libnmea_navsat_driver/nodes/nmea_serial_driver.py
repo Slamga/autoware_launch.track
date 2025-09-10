@@ -43,8 +43,8 @@ def main(args=None):
     driver = Ros2NMEADriver()
     frame_id = driver.get_frame_id()
 
-    serial_port = driver.declare_parameter('port', '/dev/ttyUSB0').value
-    serial_baud = driver.declare_parameter('baud', 4800).value
+    serial_port = driver.declare_parameter('port', '/dev/wheeltec_gps').value
+    serial_baud = driver.declare_parameter('baud', 9600).value
 
     try:
         GPS = serial.Serial(port=serial_port, baudrate=serial_baud, timeout=2)

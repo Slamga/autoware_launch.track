@@ -241,7 +241,7 @@ typedef struct
   float z;             /**< Z axis, Unit:m */
   uint8_t intensity;   /**< Reflectivity   */
   uint8_t return_type; /**< Livox point tag   */
-  uint8_t channel;     /**< Laser line id     */
+  uint16_t channel;    /**< Laser line id     */
 } LivoxPointXyzirc;
 
 #pragma pack()
@@ -359,6 +359,14 @@ inline void RawPointConvert(LivoxPointXyzr * dst_point, LivoxRawPoint * raw_poin
   dst_point->y = raw_point->y / 1000.0f;
   dst_point->z = raw_point->z / 1000.0f;
   dst_point->reflectivity = (float)raw_point->reflectivity;
+}
+
+inline void RawPointConvertRing(LivoxPointXyzirc * dst_point, LivoxRawPoint * raw_point)
+{
+  dst_point->x = raw_point->x / 1000.0f;
+  dst_point->y = raw_point->y / 1000.0f;
+  dst_point->z = raw_point->z / 1000.0f;
+  dst_point->intensity = (uint8_t)raw_point->reflectivity;
 }
 
 inline void RawPointConvert(LivoxPointXyzr * dst_point, LivoxSpherPoint * raw_point)

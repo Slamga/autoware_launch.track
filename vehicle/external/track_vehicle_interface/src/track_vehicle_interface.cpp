@@ -8,7 +8,7 @@ TrackVehicleInterface::TrackVehicleInterface(const rclcpp::NodeOptions & node_op
   velocity_zoom_ = declare_parameter<double>("velocity_zoom", 250.0);
   RCLCPP_INFO(
     this->get_logger(), "zoom: steering: %f. velocity:%f ", steering_zoom_, velocity_zoom_);
-  ctx = modbus_new_tcp("192.168.1.2", 502);  // 改成目标 IP/端口
+  ctx = modbus_new_tcp("192.168.2.10", 502);  // 改成目标 IP/端口
   if (modbus_connect(ctx) == -1) {
     RCLCPP_ERROR(this->get_logger(), "Connection failed: %s.", modbus_strerror(errno));
     std::cerr << "Connection failed: " << modbus_strerror(errno) << "\n";
