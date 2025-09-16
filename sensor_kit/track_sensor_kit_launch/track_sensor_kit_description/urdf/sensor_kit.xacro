@@ -4,7 +4,8 @@
     <xacro:include filename="$(find livox_avia_description)/urdf/livox_avia.xacro"/>
     <!-- <xacro:include filename="$(find vls_description)/urdf/VLS-128.urdf.xacro"/> -->
     <xacro:include filename="$(find camera_description)/urdf/monocular_camera.xacro"/>
-    <!-- <xacro:include filename="$(find imu_description)/urdf/imu.xacro"/> -->
+     <xacro:include filename="$(find camera_description)/urdf/gnss.xacro"/>
+    <xacro:include filename="$(find imu_description)/urdf/imu.xacro"/>
 
     <xacro:arg name="gpu" default="false"/>
     <xacro:arg name="config_dir" default="$(find track_sensor_kit_description)/config"/>
@@ -52,7 +53,7 @@
     />
 
     <!-- gnss -->
-    <!-- <xacro:gnss_macro
+    <xacro:gnss_macro
       name="gnss"
       parent="sensor_kit_base_link"
       namespace=""
@@ -63,7 +64,7 @@
       pitch="${calibration['sensor_kit_base_link']['gnss_link']['pitch']}"
       yaw="${calibration['sensor_kit_base_link']['gnss_link']['yaw']}"
       fps="100"
-    /> -->
+    />
 
     <!-- imu -->
     <!-- <xacro:imu_macro
