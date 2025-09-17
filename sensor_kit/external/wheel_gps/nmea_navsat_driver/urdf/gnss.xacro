@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- GNSS Sensor Macro -->
+  <xacro:macro name="gnss_macro" params="name parent namespace x y z roll pitch yaw fps">
+    <!-- Link -->
+    <link name="gnss_link">
+      <visual>
+        <geometry>
+          <box size="0.05 0.05 0.02"/>
+        </geometry>
+        <material name="green">
+          <color rgba="0 1 0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.05 0.05 0.02"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.1"/>
+        <inertia 
+          ixx="8.67e-06" ixy="0" ixz="0"
+          iyy="8.67e-06" iyz="0"
+          izz="1.67e-05"/>
+      </inertial>
+    </link>
+
+    <!-- Joint -->
+    <joint name="${name}_joint" type="fixed">
+      <origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}"/>
+      <parent link="sensor_kit_base_link"/>
+      <child link="gnss_link"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

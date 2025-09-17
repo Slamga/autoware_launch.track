@@ -4,7 +4,7 @@
     <xacro:include filename="$(find livox_avia_description)/urdf/livox_avia.xacro"/>
     <!-- <xacro:include filename="$(find vls_description)/urdf/VLS-128.urdf.xacro"/> -->
     <xacro:include filename="$(find camera_description)/urdf/monocular_camera.xacro"/>
-     <xacro:include filename="$(find camera_description)/urdf/gnss.xacro"/>
+     <xacro:include filename="$(find nmea_navsat_driver)/urdf/gnss.xacro"/>
     <xacro:include filename="$(find imu_description)/urdf/imu.xacro"/>
 
     <xacro:arg name="gpu" default="false"/>
