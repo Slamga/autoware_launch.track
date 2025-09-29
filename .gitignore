@@ -13,7 +13,7 @@ build/
 install/
 log/
 /src/
-
+*/__pycache__/
 # Python
 *.pyc
 

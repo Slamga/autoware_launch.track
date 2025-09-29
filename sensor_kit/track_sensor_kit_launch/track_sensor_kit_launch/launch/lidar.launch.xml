@@ -19,7 +19,7 @@
         <arg name="scan_phase" value="300.0"/>
         <arg name="launch_driver" value="$(var launch_driver)"/>
         <!-- <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/> -->
-        <arg name="container_name" value="pointcloud_container"/>
+        <arg name="container_name" value="$(var pointcloud_container_name)"/>
       </include>
     </group>
 
